@@ -16,11 +16,11 @@ from langchain.callbacks.base import CallbackManager
 from langchain.embeddings import HuggingFaceEmbeddings
 
 
-st.set_page_config(page_title="PDF Analyzer",page_icon=':shark:')
+st.set_page_config(page_title="QuranGPT",page_icon=':shark:')
 
 @st.cache_data
 def load_docs(files):
-    st.info("`Reading doc ...`")
+    st.info("`Reading quranic verses...`")
     all_text = ""
     for file_path in files:
         file_extension = os.path.splitext(file_path.name)[1]
@@ -35,7 +35,7 @@ def load_docs(files):
             text = stringio.read()
             all_text += text
         else:
-            st.warning('Please provide txt or pdf.', icon="⚠️")
+            st.warning('Please provide Quranic verses.', icon="⚠️")
     return all_text
 
 
@@ -62,7 +62,7 @@ def split_texts(text, chunk_size, overlap, split_method):
     # IN: text, chunk size, overlap, split_method
     # OUT: list of str splits
 
-    st.info("`Splitting doc ...`")
+    st.info("`Splitting  ...`")
 
     split_method = "RecursiveTextSplitter"
     text_splitter = RecursiveCharacterTextSplitter(
@@ -70,7 +70,7 @@ def split_texts(text, chunk_size, overlap, split_method):
 
     splits = text_splitter.split_text(text)
     if not splits:
-        st.error("Failed to split document")
+        st.error("Failed to split Quranic Verses")
         st.stop()
 
     return splits
@@ -82,7 +82,7 @@ def generate_eval(text, N, chunk):
     # IN: text, N questions, chunk size to draw question from in the doc
     # OUT: eval set as JSON list
 
-    st.info("`Generating sample questions ...`")
+    st.info("`Generating sample questions from mentioned quranic verses...`")
     n = len(text)
     starting_indices = [random.randint(0, n-chunk) for _ in range(N)]
     sub_sequences = [text[i:i+chunk] for i in starting_indices]
@@ -158,12 +158,6 @@ def main():
             
             div.css-1kyxreq {margin-top: -40px;
             }
-            
-           
-       
-            
-          
-
         </style>
         """,
         unsafe_allow_html=True,
@@ -202,7 +196,7 @@ def main():
     else:
         os.environ["OPENAI_API_KEY"] = st.session_state.openai_api_key
 
-    uploaded_files = st.file_uploader("Upload a PDF or TXT Document", type=[
+    uploaded_files = st.file_uploader("Upload any Quranic Verses", type=[
                                       "pdf", "txt"], accept_multiple_files=True)
 
     if uploaded_files:
