@@ -162,7 +162,7 @@ def main():
         """,
         unsafe_allow_html=True,
     )
-    st.sidebar.image("img/logo1.png")
+    st.sidebar.image("logo1.png")
    
     st.write(
     f"""
