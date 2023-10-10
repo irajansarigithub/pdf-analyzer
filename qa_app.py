@@ -16,11 +16,11 @@ from langchain.callbacks.base import CallbackManager
 from langchain.embeddings import HuggingFaceEmbeddings
 
 
-st.set_page_config(page_title="QuranGPT",page_icon=':shark:')
+st.set_page_config(page_title="computerUsageGPT",page_icon=':shark:')
 
 @st.cache_data
 def load_docs(files):
-    st.info("`Reading quranic verses...`")
+    st.info("`Reading usage of computer in various field...`")
     all_text = ""
     for file_path in files:
         file_extension = os.path.splitext(file_path.name)[1]
@@ -35,7 +35,7 @@ def load_docs(files):
             text = stringio.read()
             all_text += text
         else:
-            st.warning('Please provide Quranic verses.', icon="⚠️")
+            st.warning('Please provide about computer usage.', icon="⚠️")
     return all_text
 
 
@@ -70,7 +70,7 @@ def split_texts(text, chunk_size, overlap, split_method):
 
     splits = text_splitter.split_text(text)
     if not splits:
-        st.error("Failed to split Quranic Verses")
+        st.error("Failed to split computer usage")
         st.stop()
 
     return splits
@@ -82,7 +82,7 @@ def generate_eval(text, N, chunk):
     # IN: text, N questions, chunk size to draw question from in the doc
     # OUT: eval set as JSON list
 
-    st.info("`Generating sample questions from mentioned quranic verses...`")
+    st.info("`Generating sample questions from mentioned usage of computer...`")
     n = len(text)
     starting_indices = [random.randint(0, n-chunk) for _ in range(N)]
     sub_sequences = [text[i:i+chunk] for i in starting_indices]
@@ -196,7 +196,7 @@ def main():
     else:
         os.environ["OPENAI_API_KEY"] = st.session_state.openai_api_key
 
-    uploaded_files = st.file_uploader("Upload any Quranic Verses", type=[
+    uploaded_files = st.file_uploader("Upload any question about computer usage", type=[
                                       "pdf", "txt"], accept_multiple_files=True)
 
     if uploaded_files:
